@@ -59,13 +59,6 @@ class Table extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>John</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-            </tr>
             {tbodyContent}
           </tbody>
         </table>

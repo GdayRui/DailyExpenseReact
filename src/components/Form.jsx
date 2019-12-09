@@ -10,35 +10,40 @@ class Form extends Component {
         Amount: "",
         Category: "",
         Comment: ""
+      },
+      category: {
+        
       }
     };
   }
 
-  onSubmitForm = e => {
+  onSubmitForm = () => {
+    // option 1: get value of new record 
+    // let currentRecord = {
+    //   Date: document.getElementById('date').value,
+    //   Description: document.getElementById('item-name').value,
+    //   Amount: document.getElementById('amount').value,
+    //   Category: document.getElementById('category').value,
+    //   Comment: document.getElementById('comments').value
+    // }
+    // option 1: then inform <table>
+    // this.props.onAddNewRecord(currentRecord);
 
-    debugger;
-    let currentRecord = {
-      Date: document.getElementById('date').value,
-      Description: document.getElementById('item-name').value,
-      Amount: document.getElementById('amount').value,
-      Category: document.getElementById('category').value,
-      Comment: document.getElementById('comments').value
-    }
-    // then inform <table>
-    this.props.onAddNewRecord(currentRecord);
-
-    // this.props.onAddNewRecord(this.state.newRecord);
-
-    // this.setState({newRecord: e.target.value});
-
+    // option 2: 
+    this.props.onAddNewRecord(this.state.newRecord);
     this.props.onShowMainPage();
   };
 
-  handleDateChange = (event) => {
+  // option 2: get value of new record using onChange fn
+  handleInputChange = (e) => {
     let newRecord = this.state.newRecord;
-    newRecord.Date = event.target.value;
+    if (e.target.id == "date") { newRecord.Date = e.target.value };
+    if (e.target.id == "category") { newRecord.Category = e.target.value };
+    if (e.target.id == "item-name") { newRecord.Description = e.target.value };
+    if (e.target.id == "amount") { newRecord.Amount = e.target.value };
+    if (e.target.id == "comments") { newRecord.Comment = e.target.value };
 
-    this.setState({newRecord: newRecord});
+    this.setState({ newRecord: newRecord });
   }
 
   render() {
@@ -46,14 +51,18 @@ class Form extends Component {
       <div className="container">
         <form>
           <div className="form-group">
-            <input id="date" className="form-control" type="date" value="2019-12-6" 
-            onChange={this.handleDateChange}/>
+            <input id="date"
+              className="form-control"
+              type="date"
+              value="2019-12-6"
+              onChange={this.handleInputChange} />
           </div>
           <div className="form-group">
             <input id="category"
               className="form-control"
               type="text"
               placeholder="Category"
+              onChange={this.handleInputChange}
             />
           </div>
           <div className="form-group">
@@ -61,17 +70,23 @@ class Form extends Component {
               className="form-control"
               type="text"
               placeholder="Item Name"
-              value="woolwroths"
+              onChange={this.handleInputChange}
             />
           </div>
           <div className="form-group">
-            <input id="amount" className="form-control" type="text" placeholder="Amount" />
+            <input id="amount"
+              className="form-control"
+              type="text"
+              placeholder="Amount"
+              onChange={this.handleInputChange}
+            />
           </div>
           <div className="form-group">
             <input id="comments"
               className="form-control"
               type="text"
               placeholder="Comments"
+              onChange={this.handleInputChange}
             />
           </div>
           <button className="btn btn-success" onClick={this.onSubmitForm}>

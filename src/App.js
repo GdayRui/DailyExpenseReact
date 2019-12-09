@@ -8,16 +8,16 @@ class App extends React.Component {
     isMainPage: true,
     newRecord: {
       Date: '',
-            Description:'',
-            Amount:'',
-            Category:'',
-            Comment:''
+      Description: '',
+      Amount: '',
+      Category: '',
+      Comment: ''
     }
   };
 
 
   onAddNew = (newRecord) => {
-    this.setState({newRecord: newRecord});
+    this.setState({ newRecord: newRecord });
 
   }
 
