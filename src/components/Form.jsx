@@ -11,14 +11,13 @@ class Form extends Component {
         Category: "",
         Comment: ""
       },
-      category: {
-        
-      }
+      category: ["Grocery", "Petrol", "Education", "Insurance", "Others"],
+      isError: false
     };
   }
 
   onSubmitForm = () => {
-    // option 1: get value of new record 
+    // option 1: get value of new record
     // let currentRecord = {
     //   Date: document.getElementById('date').value,
     //   Description: document.getElementById('item-name').value,
@@ -29,44 +28,77 @@ class Form extends Component {
     // option 1: then inform <table>
     // this.props.onAddNewRecord(currentRecord);
 
-    // option 2: 
-    this.props.onAddNewRecord(this.state.newRecord);
-    this.props.onShowMainPage();
+    // option 2:
+    if (this.state.newRecord.Amount === "") {
+      this.setSate({ isError: true });
+    } else {
+      this.props.onAddNewRecord(this.state.newRecord);
+      this.props.onShowMainPage();
+    }
   };
 
   // option 2: get value of new record using onChange fn
-  handleInputChange = (e) => {
+  handleInputChange = e => {
+    debugger;
     let newRecord = this.state.newRecord;
-    if (e.target.id == "date") { newRecord.Date = e.target.value };
-    if (e.target.id == "category") { newRecord.Category = e.target.value };
-    if (e.target.id == "item-name") { newRecord.Description = e.target.value };
-    if (e.target.id == "amount") { newRecord.Amount = e.target.value };
-    if (e.target.id == "comments") { newRecord.Comment = e.target.value };
+    if (e.target.id == "date") {
+      newRecord.Date = e.target.value;
+    }
+    if (e.target.id == "category") {
+      newRecord.Category = e.target.value;
+    }
+    if (e.target.id == "item-name") {
+      newRecord.Description = e.target.value;
+    }
+    if (e.target.id == "amount") {
+      newRecord.Amount = e.target.value;
+    }
+    if (e.target.id == "comments") {
+      newRecord.Comment = e.target.value;
+    }
 
     this.setState({ newRecord: newRecord });
-  }
+  };
 
   render() {
+    const alertDiv = this.isError ? (
+      <div className="alert alert-danger" role="alert">
+        Please fill the blanks before you submit!
+      </div>
+    ) : (
+      <div></div>
+    );
+
     return (
       <div className="container">
         <form>
           <div className="form-group">
-            <input id="date"
+            <input
+              id="date"
               className="form-control"
               type="date"
-              value="2019-12-6"
-              onChange={this.handleInputChange} />
-          </div>
-          <div className="form-group">
-            <input id="category"
-              className="form-control"
-              type="text"
-              placeholder="Category"
+              value={this.state.newRecord.Date}
               onChange={this.handleInputChange}
             />
           </div>
           <div className="form-group">
-            <input id="item-name"
+            <select
+              id="category"
+              className="form-control"
+              onChange={this.handleInputChange}
+            >
+              <option value="Grocery" selected>
+                Grocery
+              </option>
+              <option>Petrol</option>
+              <option>Education</option>
+              <option>Insurance</option>
+              <option>Others</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <input
+              id="item-name"
               className="form-control"
               type="text"
               placeholder="Item Name"
@@ -74,7 +106,8 @@ class Form extends Component {
             />
           </div>
           <div className="form-group">
-            <input id="amount"
+            <input
+              id="amount"
               className="form-control"
               type="text"
               placeholder="Amount"
@@ -82,12 +115,17 @@ class Form extends Component {
             />
           </div>
           <div className="form-group">
-            <input id="comments"
+            <input
+              id="comments"
               className="form-control"
               type="text"
               placeholder="Comments"
               onChange={this.handleInputChange}
             />
+          </div>
+          {/* Alert when submit without input */}
+          <div className="alert alert-danger" role="alert">
+            Please fill the blanks before you submit!
           </div>
           <button className="btn btn-success" onClick={this.onSubmitForm}>
             Submit
