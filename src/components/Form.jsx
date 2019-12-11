@@ -30,7 +30,7 @@ class Form extends Component {
 
     // option 2:
     if (this.state.newRecord.Amount === "") {
-      this.setSate({ isError: true });
+      this.setState({ isError: true });
     } else {
       this.props.onAddNewRecord(this.state.newRecord);
       this.props.onShowMainPage();
@@ -39,21 +39,20 @@ class Form extends Component {
 
   // option 2: get value of new record using onChange fn
   handleInputChange = e => {
-    debugger;
     let newRecord = this.state.newRecord;
-    if (e.target.id == "date") {
+    if (e.target.id === "date") {
       newRecord.Date = e.target.value;
     }
-    if (e.target.id == "category") {
+    if (e.target.id === "category") {
       newRecord.Category = e.target.value;
     }
-    if (e.target.id == "item-name") {
+    if (e.target.id === "item-name") {
       newRecord.Description = e.target.value;
     }
-    if (e.target.id == "amount") {
+    if (e.target.id === "amount") {
       newRecord.Amount = e.target.value;
     }
-    if (e.target.id == "comments") {
+    if (e.target.id === "comments") {
       newRecord.Comment = e.target.value;
     }
 
@@ -61,9 +60,9 @@ class Form extends Component {
   };
 
   render() {
-    const alertDiv = this.isError ? (
+    const alertDiv = this.state.isError ? (
       <div className="alert alert-danger" role="alert">
-        Please fill the blanks before you submit!
+        Please fill in the blanks before you submit!
       </div>
     ) : (
       <div></div>
@@ -86,10 +85,9 @@ class Form extends Component {
               id="category"
               className="form-control"
               onChange={this.handleInputChange}
+              defaultValue="Grocery"
             >
-              <option value="Grocery" selected>
-                Grocery
-              </option>
+              <option>Grocery</option>
               <option>Petrol</option>
               <option>Education</option>
               <option>Insurance</option>
@@ -124,9 +122,7 @@ class Form extends Component {
             />
           </div>
           {/* Alert when submit without input */}
-          <div className="alert alert-danger" role="alert">
-            Please fill the blanks before you submit!
-          </div>
+          {alertDiv}
           <button className="btn btn-success" onClick={this.onSubmitForm}>
             Submit
           </button>

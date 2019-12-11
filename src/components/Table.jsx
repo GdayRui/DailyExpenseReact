@@ -26,13 +26,10 @@ class Table extends Component {
   //   }
 
   handleAddNewRecord = newRecord => {
-    // debugger;
-
     let currentData = this.state.data;
     currentData.push(newRecord);
 
     this.setState({ data: currentData });
-
   };
 
   render() {
@@ -58,9 +55,7 @@ class Table extends Component {
               <th>Comment</th>
             </tr>
           </thead>
-          <tbody>
-            {tbodyContent}
-          </tbody>
+          <tbody>{tbodyContent}</tbody>
         </table>
 
         <button
