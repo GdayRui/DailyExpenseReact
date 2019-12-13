@@ -17,21 +17,25 @@ class Form extends Component {
   }
 
   onSubmitForm = () => {
-    // option 1: get value of new record
+    // // option 1: get value of new record
     // let currentRecord = {
-    //   Date: document.getElementById('date').value,
-    //   Description: document.getElementById('item-name').value,
-    //   Amount: document.getElementById('amount').value,
-    //   Category: document.getElementById('category').value,
-    //   Comment: document.getElementById('comments').value
-    // }
-    // option 1: then inform <table>
+    //   Date: document.getElementById("date").value,
+    //   Description: document.getElementById("item-name").value,
+    //   Amount: document.getElementById("amount").value,
+    //   Category: document.getElementById("category").value,
+    //   Comment: document.getElementById("comments").value
+    // };
+    // // option 1: then inform <table>
     // this.props.onAddNewRecord(currentRecord);
+    // this.props.onShowMainPage();
 
     // option 2:
     if (this.state.newRecord.Amount === "") {
       this.setState({ isError: true });
     } else {
+      let r = this.state.newRecord;
+      r.Category = document.getElementById("category").value;
+      this.setState({ newRecord: r });
       this.props.onAddNewRecord(this.state.newRecord);
       this.props.onShowMainPage();
     }
@@ -42,17 +46,13 @@ class Form extends Component {
     let newRecord = this.state.newRecord;
     if (e.target.id === "date") {
       newRecord.Date = e.target.value;
-    }
-    if (e.target.id === "category") {
+    } else if (e.target.id === "category") {
       newRecord.Category = e.target.value;
-    }
-    if (e.target.id === "item-name") {
+    } else if (e.target.id === "item-name") {
       newRecord.Description = e.target.value;
-    }
-    if (e.target.id === "amount") {
+    } else if (e.target.id === "amount") {
       newRecord.Amount = e.target.value;
-    }
-    if (e.target.id === "comments") {
+    } else if (e.target.id === "comments") {
       newRecord.Comment = e.target.value;
     }
 
@@ -60,6 +60,7 @@ class Form extends Component {
   };
 
   render() {
+    // Alert will display when submit with input empty
     const alertDiv = this.state.isError ? (
       <div className="alert alert-danger" role="alert">
         Please fill in the blanks before you submit!
@@ -76,7 +77,7 @@ class Form extends Component {
               id="date"
               className="form-control"
               type="date"
-              value={this.state.newRecord.Date}
+              value={this.state.newRecord.Date} // option 1: remove this line, otherwise the date will always be  ''
               onChange={this.handleInputChange}
             />
           </div>
@@ -84,10 +85,10 @@ class Form extends Component {
             <select
               id="category"
               className="form-control"
+              value={this.state.newRecord.Category} // option 1: remove this line
               onChange={this.handleInputChange}
-              defaultValue="Grocery"
             >
-              <option>Grocery</option>
+              <option value="Grocery">Grocery</option>
               <option>Petrol</option>
               <option>Education</option>
               <option>Insurance</option>
@@ -123,9 +124,12 @@ class Form extends Component {
           </div>
           {/* Alert when submit without input */}
           {alertDiv}
-          <button className="btn btn-success" onClick={this.onSubmitForm}>
-            Submit
-          </button>
+          <input
+            className="btn btn-success"
+            type="button"
+            value="Submit"
+            onClick={this.onSubmitForm}
+          ></input>
         </form>
       </div>
     );

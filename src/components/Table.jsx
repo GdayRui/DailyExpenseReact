@@ -11,19 +11,12 @@ class Table extends Component {
   }
 
   handleShowForm = () => {
-    //debugger;
     this.setState({ isMainPage: false });
   };
 
   handleShowMainPage = () => {
     this.setState({ isMainPage: true });
   };
-
-  //   handleAddNew = () => {
-  //     if (this.props.newRecord !== undefined) {
-  //       this.data.push(this.props.newRecord);
-  //     }
-  //   }
 
   handleAddNewRecord = newRecord => {
     let currentData = this.state.data;
@@ -68,10 +61,7 @@ class Table extends Component {
     );
 
     if (this.state.isMainPage) {
-      return (
-        // <Table onShowForm={this.showForm} newRecord={this.state.newRecord} />
-        mainPage
-      );
+      return mainPage;
     } else {
       return (
         <Form
