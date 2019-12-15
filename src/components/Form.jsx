@@ -108,7 +108,7 @@ class Form extends Component {
             <input
               id="amount"
               className="form-control"
-              type="text"
+              type="number"
               placeholder="Amount"
               onChange={this.handleInputChange}
             />
