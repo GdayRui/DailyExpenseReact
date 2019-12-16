@@ -11,14 +11,7 @@ class Table extends Component {
     };
   }
 
-  getDerivedStateFromProps() {
-    let storedDataJson = window.localStorage.getItem(this.state.storageKey);
-
-    let storedData = JSON.parse(storedDataJson);
-    if (storedData) {
-      this.setState({ data: storedDataJson });
-    }
-  }
+  static getDerivedStateFromProps() {}
 
   handleShowForm = () => {
     this.setState({ isMainPage: false });
@@ -40,7 +33,20 @@ class Table extends Component {
     this.setState({ data: currentData });
   };
 
+  readStorage = () => {
+    let storedDataJson = window.localStorage.getItem(this.state.storageKey);
+
+    let storedData = JSON.parse(storedDataJson);
+    if (storedData) {
+      //this.setState({ data: storedData });
+      //return { data: storedData };
+      this.state.data = storedData;
+    }
+  };
+
   render() {
+    this.readStorage();
+
     let tbodyContent = this.state.data.map(item => (
       <tr>
         <td>{item.Date}</td>
