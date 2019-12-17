@@ -24,6 +24,37 @@ class Table extends Component {
     this.setState({ isMainPage: true });
   };
 
+  handleSelected = (id) => {
+    for(let i=0; i<this.state.data.length; i++){
+      if (id===this.state.data[i].Id){
+
+        let tmpData = this.state.data;
+        tmpData[i].isSelected = !tmpData[i].isSelected;
+        tmpData[i].isSelected? this.state.numSelectedRecords++ : this.state.numSelectedRecords-- ;
+        this.setState({data:tmpData});
+
+        return;
+      }
+    }
+  }
+  // Delete selected records
+  handleDelete = () => {
+    let items = this.state.data;
+    for (let i=0; i<this.state.data.length; i++) {
+      
+      if (items[i].isSelected) {
+        items.splice(i, 1);
+        i--;
+        this.state.numSelectedRecords--;
+      }
+    }
+    window.localStorage.setItem(
+      this.state.storageKey,
+      JSON.stringify(items)
+    );
+    this.setState({data:items});
+  }
+
   handleAddNewRecord = newRecord => {
     // ***
     newRecord.Id = this.state.data.length + 1;
@@ -37,24 +68,6 @@ class Table extends Component {
 
     this.setState({ data: currentData });
   };
-
-  handleSelected = (id) => {
-    for(let i=0; i<this.state.data.length; i++){
-      if (id===this.state.data[i].Id){
-
-        let tmpData = this.state.data;
-        tmpData[i].isSelected = !tmpData[i].isSelected;
-        tmpData[i].isSelected? this.state.numSelectedRecords++ : this.state.numSelectedRecords-- ;
-        this.setState({data:tmpData});
-
-        console.log(this.state.data[i]);
-
-        //this.setState({data: this.state.data});
-
-        return;
-      }
-    }
-  }
 
   // Read local storage data
   readStorage = () => {
@@ -114,8 +127,10 @@ class Table extends Component {
         />
         <input
           className="btn btn-danger pr-5 pl-5 my-3 mx-2"
+          onClick={this.handleDelete}
+          // ES6 string
           value={`Delete ${this.state.numSelectedRecords} Records`}
-          disabled
+          disabled={this.state.numSelectedRecords===0}
         />
       </div>
     );
