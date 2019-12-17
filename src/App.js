@@ -6,26 +6,14 @@ import "./App.css";
 class App extends React.Component {
   state = {
     isMainPage: true,
-    newRecord: {
-      Date: '',
-      Description: '',
-      Amount: '',
-      Category: '',
-      Comment: ''
-    }
+    tableTitle: "Daily Expense 2021 Jan"
   };
-
-
-  onAddNew = (newRecord) => {
-    this.setState({ newRecord: newRecord });
-
-  }
 
   render() {
 
     return (
       <div className="App" >
-        <Table />
+        <Table title={this.state.tableTitle} />
       </div>
     );
   }

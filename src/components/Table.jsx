@@ -24,6 +24,8 @@ class Table extends Component {
   };
 
   handleAddNewRecord = newRecord => {
+    // ***
+    newRecord.Id = this.state.data.length + 1;
     let currentData = this.state.data;
     currentData.push(newRecord);
 
@@ -34,6 +36,23 @@ class Table extends Component {
 
     this.setState({ data: currentData });
   };
+
+  handleSelected = (id) => {
+    for(let i=0; i<this.state.data.length; i++){
+      if (id===this.state.data[i].Id){
+
+        let tmpData = this.state.data;
+        tmpData[i].isSelected = !tmpData[i].isSelected;
+        this.setState({data:tmpData});
+
+        console.log(this.state.data[i]);
+
+        //this.setState({data: this.state.data});
+
+        return;
+      }
+    }
+  }
 
   // Read local storage data
   readStorage = () => {
@@ -52,23 +71,25 @@ class Table extends Component {
   }
 
   render() {
-    let tbodyContent = this.state.data.map(item => (
-      <tr>
-        <td>{item.Date}</td>
-        <td>{item.Description}</td>
-        <td>{item.Amount}</td>
-        <td>{item.Category}</td>
-        <td>{item.Comment}</td>
-        <td>
-        <FontAwesomeIcon icon={faCheckCircle} />
-        </td>
-      </tr>
-    ));
+    
+    let tbodyContent = this.state.data.map(item => {
+      let selectIcon = item.isSelected ? <td><FontAwesomeIcon icon={faCheckCircle} /></td> : <td></td>;
+      return (
+        <tr onClick={() => this.handleSelected(item.Id)} >
+          <td>{item.Date}</td>
+          <td>{item.Description}</td>
+          <td>{item.Amount}</td>
+          <td>{item.Category}</td>
+          <td>{item.Comment}</td>
+          {selectIcon}
+        </tr>
+      )
+    });
 
     let mainPage = (
       <div className="container">
         <div className="container my-5">
-          <h2>Daily Expense 2019</h2>
+          <h2>{this.props.title}</h2>
         </div>
         <table className="table table-striped my-2">
           <thead>
@@ -92,6 +113,7 @@ class Table extends Component {
         <input
           className="btn btn-danger pr-5 pl-5 my-3 mx-2"
           value="Delete Expense"
+          disabled
         />
       </div>
     );

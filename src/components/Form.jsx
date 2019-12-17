@@ -5,11 +5,13 @@ class Form extends Component {
     super(props);
     this.state = {
       newRecord: {
+        Id: 0,
         Date: "",
         Description: "",
         Amount: "",
         Category: "",
-        Comment: ""
+        Comment: "",
+        isSelected: false
       },
       category: ["Grocery", "Petrol", "Education", "Insurance", "Others"],
       isError: false
