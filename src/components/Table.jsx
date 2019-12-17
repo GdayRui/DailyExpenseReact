@@ -33,20 +33,23 @@ class Table extends Component {
     this.setState({ data: currentData });
   };
 
+  // Read local storage data
   readStorage = () => {
     let storedDataJson = window.localStorage.getItem(this.state.storageKey);
 
     let storedData = JSON.parse(storedDataJson);
     if (storedData) {
-      //this.setState({ data: storedData });
+      this.setState({ data: storedData });
       //return { data: storedData };
-      this.state.data = storedData;
+      //this.state.data = storedData;
     }
   };
 
-  render() {
+  componentDidMount(){
     this.readStorage();
+  }
 
+  render() {
     let tbodyContent = this.state.data.map(item => (
       <tr>
         <td>{item.Date}</td>
