@@ -9,7 +9,8 @@ class Table extends Component {
     this.state = {
       isMainPage: true,
       data: [],
-      storageKey: "expenseList"
+      storageKey: "expenseList",
+      numSelectedRecords: 0
     };
   }
 
@@ -43,6 +44,7 @@ class Table extends Component {
 
         let tmpData = this.state.data;
         tmpData[i].isSelected = !tmpData[i].isSelected;
+        tmpData[i].isSelected? this.state.numSelectedRecords++ : this.state.numSelectedRecords-- ;
         this.setState({data:tmpData});
 
         console.log(this.state.data[i]);
@@ -112,7 +114,7 @@ class Table extends Component {
         />
         <input
           className="btn btn-danger pr-5 pl-5 my-3 mx-2"
-          value="Delete Expense"
+          value={`Delete ${this.state.numSelectedRecords} Records`}
           disabled
         />
       </div>
