@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Form from "./Form";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 class Table extends Component {
   constructor(props) {
@@ -58,8 +60,7 @@ class Table extends Component {
         <td>{item.Category}</td>
         <td>{item.Comment}</td>
         <td>
-          <input type="checkbox" />
-          <span className="success" />
+        <FontAwesomeIcon icon={faCheckCircle} />
         </td>
       </tr>
     ));
@@ -77,6 +78,7 @@ class Table extends Component {
               <th>Amount</th>
               <th>Category</th>
               <th>Comment</th>
+              <th className="Table-th"></th>
             </tr>
           </thead>
           <tbody>{tbodyContent}</tbody>
