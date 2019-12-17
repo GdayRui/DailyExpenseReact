@@ -39,20 +39,25 @@ class Table extends Component {
   }
   // Delete selected records
   handleDelete = () => {
-    let items = this.state.data;
-    for (let i=0; i<this.state.data.length; i++) {
+    // let items = this.state.data;
+    // for (let i=0; i<this.state.data.length; i++) {
       
-      if (items[i].isSelected) {
-        items.splice(i, 1);
-        i--;
-        this.state.numSelectedRecords--;
-      }
-    }
+    //   if (items[i].isSelected) {
+    //     items.splice(i, 1);
+    //     i--;
+    //     this.state.numSelectedRecords--;
+    //   }
+    // }
+
+    // option 2 
+    let resultList = this.state.data.filter(item => !item.isSelected);
+    this.setState({data:resultList});
+
     window.localStorage.setItem(
       this.state.storageKey,
-      JSON.stringify(items)
+      JSON.stringify(resultList)
     );
-    this.setState({data:items});
+    this.setState({data:resultList});
   }
 
   handleAddNewRecord = newRecord => {
