@@ -74,8 +74,86 @@ class Table extends Component {
     this.setState({ data: currentData });
   };
 
+  // Sort the data 
+  handleSort = (type) => {
+  
+    const compareItem = (a, b) => {
+      debugger;
+      const itemA = a.Description.toUpperCase();
+      const itemB = b.Description.toUpperCase();
+      // * cannot compare 2 strings. this compare fn only return 
+      // return itemA>itemB?1:-1;
+      let comparison = 0;
+      if (itemA > itemB ) {
+        comparison = 1;
+      } else if (itemA < itemB ) {
+        comparison = -1;
+      } 
+      return comparison;
+    }
+
+    const compareAmount = (a, b) => {
+      return a.Amount - b.Amount;
+    }
+
+    let sortedData;
+    debugger;
+    if (type === "Amount") {
+      sortedData = this.state.data.sort(compareAmount);
+    } else if(type === "Item") {
+      sortedData = this.state.data.sort(compareItem);
+    }
+    
+    this.setState({data: sortedData});
+
+  }
+
+  tmpSort = (arr) => {
+    if(arr.length <= 1){
+      return arr;
+    }
+
+    let key = arr[0];
+    let arrSmall = [];
+    let arrBig = [];
+
+    for(let i=1; i<arr.length; i++){
+      if(arr[i] <= key ){
+        arrSmall.push(arr[i]);
+      } else{
+        arrBig.push(arr[i]);
+      }
+    }
+
+    let arrSmallSorted = this.tmpSort(arrSmall);
+    let arrBigSorted = this.tmpSort(arrBig);
+    
+    return [...arrSmall, key, ...arrBig];
+  }
+  
+
+
+  /* handleSortByAmount = () => {
+  
+    function compare(a,b) {
+
+      let comparison = 0;
+      if (a.Amount > b.Amount ) {
+        comparison = 1;
+      } else if (a.Amount < b.Amount ) {
+        comparison = -1;
+      } 
+      return comparison;
+    }
+
+    let sortedData = this.state.data.sort(compare);
+    this.setState({data: sortedData});
+
+  } */
+
   // Read local storage data
-  readStorage = () => {
+  
+  readLocalStorage = () => {
     let storedDataJson = window.localStorage.getItem(this.state.storageKey);
 
     let storedData = JSON.parse(storedDataJson);
@@ -87,7 +165,7 @@ class Table extends Component {
   };
 
   componentDidMount(){
-    this.readStorage();
+    this.readLocalStorage();
   }
 
   render() {
@@ -108,15 +186,15 @@ class Table extends Component {
 
     let mainPage = (
       <div className="container">
-        <div className="container my-5">
+        <div className="container my-5" >
           <h2>{this.props.title}</h2>
         </div>
         <table className="table table-striped my-2">
           <thead>
             <tr>
               <th>Date</th>
-              <th>Item</th>
-              <th>Amount</th>
+              <th onClick={() => this.handleSort('Item')}>Item</th>
+              <th onClick={() => this.handleSort('Amount')}>Amount</th>
               <th>Category</th>
               <th>Comment</th>
               <th className="Table-th"></th>
@@ -137,6 +215,7 @@ class Table extends Component {
           value={`Delete ${this.state.numSelectedRecords} Records`}
           disabled={this.state.numSelectedRecords===0}
         />
+        {/* <input className="btn btn-secondary" onClick={this.handleSortData} value="Sort Data" /> */}
       </div>
     );
 
