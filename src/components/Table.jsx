@@ -78,7 +78,6 @@ class Table extends Component {
   handleSort = (type) => {
   
     const compareItem = (a, b) => {
-      debugger;
       const itemA = a.Description.toUpperCase();
       const itemB = b.Description.toUpperCase();
       // * cannot compare 2 strings. this compare fn only return 
@@ -96,43 +95,70 @@ class Table extends Component {
       return a.Amount - b.Amount;
     }
 
+    const conpareComment = (a, b) => {
+      const commentA = a.Comment.toUpperCase();
+      const commentB = b.Comment.toUpperCase();
+      let comparison = 0;
+      if (commentA > commentB ) {
+        comparison = 1;
+      } else if (commentA < commentB ) {
+        comparison = -1;
+      } 
+      return comparison;
+    }
+
+    const conpareCategory = (a, b) => {
+      const categoryA = a.Category.toUpperCase();
+      const categoryB = b.Category.toUpperCase();
+      let comparison = 0;
+      if (categoryA > categoryB ) {
+        comparison = 1;
+      } else if (categoryA < categoryB ) {
+        comparison = -1;
+      } 
+      return comparison;
+    }
+
     let sortedData;
-    debugger;
+    // debugger;
     if (type === "Amount") {
       sortedData = this.state.data.sort(compareAmount);
     } else if(type === "Item") {
       sortedData = this.state.data.sort(compareItem);
+    } else if(type === "Comment") {
+      sortedData = this.state.data.sort(conpareComment);
+    } else if(type === "Category") {
+      sortedData = this.state.data.sort(conpareCategory);
     }
     
     this.setState({data: sortedData});
 
   }
 
-  tmpSort = (arr) => {
-    if(arr.length <= 1){
-      return arr;
-    }
+//  Sort
+  // tmpSort = (arr) => {
+  //   if(arr.length <= 1){
+  //     return arr;
+  //   }
 
-    let key = arr[0];
-    let arrSmall = [];
-    let arrBig = [];
+  //   let key = arr[0];
+  //   let arrSmall = [];
+  //   let arrBig = [];
 
-    for(let i=1; i<arr.length; i++){
-      if(arr[i] <= key ){
-        arrSmall.push(arr[i]);
-      } else{
-        arrBig.push(arr[i]);
-      }
-    }
+  //   for(let i=1; i<arr.length; i++){
+  //     if(arr[i] <= key ){
+  //       arrSmall.push(arr[i]);
+  //     } else{
+  //       arrBig.push(arr[i]);
+  //     }
+  //   }
 
-    let arrSmallSorted = this.tmpSort(arrSmall);
-    let arrBigSorted = this.tmpSort(arrBig);
-    
-    return [...arrSmall, key, ...arrBig];
-  }
+  //   let arrSmallSorted = this.tmpSort(arrSmall);
+  //   let arrBigSorted = this.tmpSort(arrBig);
+
+  //   return [...arrSmall, key, ...arrBig];
+  // }
   
-
-
   /* handleSortByAmount = () => {
   
     function compare(a,b) {
@@ -192,11 +218,11 @@ class Table extends Component {
         <table className="table table-striped my-2">
           <thead>
             <tr>
-              <th>Date</th>
+              <th onClick={() => this.handleSort('Date')}>Date</th>
               <th onClick={() => this.handleSort('Item')}>Item</th>
               <th onClick={() => this.handleSort('Amount')}>Amount</th>
-              <th>Category</th>
-              <th>Comment</th>
+              <th onClick={() => this.handleSort('Category')}>Category</th>
+              <th onClick={() => this.handleSort('Comment')}>Comment</th>
               <th className="Table-th"></th>
             </tr>
           </thead>
