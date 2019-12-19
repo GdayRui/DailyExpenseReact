@@ -95,25 +95,37 @@ class Table extends Component {
       return a.Amount - b.Amount;
     }
 
-    const conpareComment = (a, b) => {
+    const compareComment = (a, b) => {
       const commentA = a.Comment.toUpperCase();
       const commentB = b.Comment.toUpperCase();
       let comparison = 0;
-      if (commentA > commentB ) {
+      if (commentA > commentB) {
         comparison = 1;
-      } else if (commentA < commentB ) {
+      } else if (commentA < commentB) {
         comparison = -1;
       } 
       return comparison;
     }
 
-    const conpareCategory = (a, b) => {
+    const compareCategory = (a, b) => {
       const categoryA = a.Category.toUpperCase();
       const categoryB = b.Category.toUpperCase();
       let comparison = 0;
-      if (categoryA > categoryB ) {
+      if (categoryA > categoryB) {
         comparison = 1;
-      } else if (categoryA < categoryB ) {
+      } else if (categoryA < categoryB) {
+        comparison = -1;
+      } 
+      return comparison;
+    }
+
+    const compareDate = (a, b) => {
+      const dateA = new Date(a.Date);
+      const dateB = new Date(b.Date);
+      let comparison = 0;
+      if (dateA > dateB) {
+        comparison = 1;
+      } else if (dateA < dateB) {
         comparison = -1;
       } 
       return comparison;
@@ -126,9 +138,11 @@ class Table extends Component {
     } else if(type === "Item") {
       sortedData = this.state.data.sort(compareItem);
     } else if(type === "Comment") {
-      sortedData = this.state.data.sort(conpareComment);
+      sortedData = this.state.data.sort(compareComment);
     } else if(type === "Category") {
-      sortedData = this.state.data.sort(conpareCategory);
+      sortedData = this.state.data.sort(compareCategory);
+    } else if(type === "Date") {
+      sortedData = this.state.data.sort(compareDate);
     }
     
     this.setState({data: sortedData});
@@ -178,7 +192,6 @@ class Table extends Component {
   } */
 
   // Read local storage data
-  
   readLocalStorage = () => {
     let storedDataJson = window.localStorage.getItem(this.state.storageKey);
 
@@ -241,7 +254,6 @@ class Table extends Component {
           value={`Delete ${this.state.numSelectedRecords} Records`}
           disabled={this.state.numSelectedRecords===0}
         />
-        {/* <input className="btn btn-secondary" onClick={this.handleSortData} value="Sort Data" /> */}
       </div>
     );
 
