@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import Form from "./Form";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckCircle,
+  faArrowUp,
+  faChevronDown,
+  faCaretUp
+} from "@fortawesome/free-solid-svg-icons";
 
 class Table extends Component {
   constructor(props) {
@@ -10,7 +15,8 @@ class Table extends Component {
       isMainPage: true,
       data: [],
       storageKey: "expenseList",
-      numSelectedRecords: 0
+      numSelectedRecords: 0,
+      sortingColumn: ""
     };
   }
 
@@ -24,24 +30,25 @@ class Table extends Component {
     this.setState({ isMainPage: true });
   };
 
-  handleSelected = (id) => {
-    for(let i=0; i<this.state.data.length; i++){
-      if (id===this.state.data[i].Id){
-
+  handleSelected = id => {
+    for (let i = 0; i < this.state.data.length; i++) {
+      if (id === this.state.data[i].Id) {
         let tmpData = this.state.data;
         tmpData[i].isSelected = !tmpData[i].isSelected;
-        tmpData[i].isSelected? this.state.numSelectedRecords++ : this.state.numSelectedRecords-- ;
-        this.setState({data:tmpData});
+        tmpData[i].isSelected
+          ? this.state.numSelectedRecords++
+          : this.state.numSelectedRecords--;
+        this.setState({ data: tmpData });
 
         return;
       }
     }
-  }
+  };
   // Delete selected records
   handleDelete = () => {
     // let items = this.state.data;
     // for (let i=0; i<this.state.data.length; i++) {
-      
+
     //   if (items[i].isSelected) {
     //     items.splice(i, 1);
     //     i--;
@@ -49,16 +56,16 @@ class Table extends Component {
     //   }
     // }
 
-    // option 2 
+    // option 2
     let resultList = this.state.data.filter(item => !item.isSelected);
-    this.setState({data:resultList});
+    this.setState({ data: resultList });
 
     window.localStorage.setItem(
       this.state.storageKey,
       JSON.stringify(resultList)
     );
-    this.setState({data:resultList});
-  }
+    this.setState({ data: resultList });
+  };
 
   handleAddNewRecord = newRecord => {
     // ***
@@ -74,26 +81,25 @@ class Table extends Component {
     this.setState({ data: currentData });
   };
 
-  // Sort the data 
-  handleSort = (type) => {
-  
+  // Sort the data
+  handleSort = type => {
     const compareItem = (a, b) => {
       const itemA = a.Description.toUpperCase();
       const itemB = b.Description.toUpperCase();
-      // * cannot compare 2 strings. this compare fn only return 
+      // * cannot compare 2 strings. this compare fn only return
       // return itemA>itemB?1:-1;
       let comparison = 0;
-      if (itemA > itemB ) {
+      if (itemA > itemB) {
         comparison = 1;
-      } else if (itemA < itemB ) {
+      } else if (itemA < itemB) {
         comparison = -1;
-      } 
+      }
       return comparison;
-    }
+    };
 
     const compareAmount = (a, b) => {
       return a.Amount - b.Amount;
-    }
+    };
 
     const compareComment = (a, b) => {
       const commentA = a.Comment.toUpperCase();
@@ -103,9 +109,9 @@ class Table extends Component {
         comparison = 1;
       } else if (commentA < commentB) {
         comparison = -1;
-      } 
+      }
       return comparison;
-    }
+    };
 
     const compareCategory = (a, b) => {
       const categoryA = a.Category.toUpperCase();
@@ -115,9 +121,9 @@ class Table extends Component {
         comparison = 1;
       } else if (categoryA < categoryB) {
         comparison = -1;
-      } 
+      }
       return comparison;
-    }
+    };
 
     const compareDate = (a, b) => {
       const dateA = new Date(a.Date);
@@ -127,29 +133,28 @@ class Table extends Component {
         comparison = 1;
       } else if (dateA < dateB) {
         comparison = -1;
-      } 
+      }
       return comparison;
-    }
+    };
 
     let sortedData;
     // debugger;
     if (type === "Amount") {
       sortedData = this.state.data.sort(compareAmount);
-    } else if(type === "Item") {
+    } else if (type === "Item") {
       sortedData = this.state.data.sort(compareItem);
-    } else if(type === "Comment") {
+    } else if (type === "Comment") {
       sortedData = this.state.data.sort(compareComment);
-    } else if(type === "Category") {
+    } else if (type === "Category") {
       sortedData = this.state.data.sort(compareCategory);
-    } else if(type === "Date") {
+    } else if (type === "Date") {
       sortedData = this.state.data.sort(compareDate);
     }
-    
-    this.setState({data: sortedData});
 
-  }
+    this.setState({ data: sortedData, sortingColumn: type });
+  };
 
-//  Sort
+  //  Sort
   // tmpSort = (arr) => {
   //   if(arr.length <= 1){
   //     return arr;
@@ -172,7 +177,7 @@ class Table extends Component {
 
   //   return [...arrSmall, key, ...arrBig];
   // }
-  
+
   /* handleSortByAmount = () => {
   
     function compare(a,b) {
@@ -203,16 +208,21 @@ class Table extends Component {
     }
   };
 
-  componentDidMount(){
+  componentDidMount() {
     this.readLocalStorage();
   }
 
   render() {
-    
     let tbodyContent = this.state.data.map(item => {
-      let selectIcon = item.isSelected ? <td><FontAwesomeIcon icon={faCheckCircle} /></td> : <td></td>;
+      let selectIcon = item.isSelected ? (
+        <td>
+          <FontAwesomeIcon icon={faCheckCircle} />
+        </td>
+      ) : (
+        <td></td>
+      );
       return (
-        <tr onClick={() => this.handleSelected(item.Id)} >
+        <tr onClick={() => this.handleSelected(item.Id)}>
           <td>{item.Date}</td>
           <td>{item.Description}</td>
           <td>{item.Amount}</td>
@@ -220,22 +230,47 @@ class Table extends Component {
           <td>{item.Comment}</td>
           {selectIcon}
         </tr>
-      )
+      );
     });
 
     let mainPage = (
       <div className="container">
-        <div className="container my-5" >
+        <div className="container my-5">
           <h2>{this.props.title}</h2>
         </div>
         <table className="table table-striped my-2">
           <thead>
             <tr>
-              <th onClick={() => this.handleSort('Date')}>Date</th>
-              <th onClick={() => this.handleSort('Item')}>Item</th>
-              <th onClick={() => this.handleSort('Amount')}>Amount</th>
-              <th onClick={() => this.handleSort('Category')}>Category</th>
-              <th onClick={() => this.handleSort('Comment')}>Comment</th>
+              <th onClick={() => this.handleSort("Date")}>
+                Date{" "}
+                {this.state.sortingColumn === "Date" && (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                )}
+              </th>
+              <th onClick={() => this.handleSort("Item")}>
+                Item{" "}
+                {this.state.sortingColumn === "Item" && (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                )}
+              </th>
+              <th onClick={() => this.handleSort("Amount")}>
+                Amount{" "}
+                {this.state.sortingColumn === "Amount" && (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                )}
+              </th>
+              <th onClick={() => this.handleSort("Category")}>
+                Category{" "}
+                {this.state.sortingColumn === "Category" && (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                )}
+              </th>
+              <th onClick={() => this.handleSort("Comment")}>
+                Comment{" "}
+                {this.state.sortingColumn === "Comment" && (
+                  <FontAwesomeIcon icon={faCaretUp} />
+                )}
+              </th>
               <th className="Table-th"></th>
             </tr>
           </thead>
@@ -252,7 +287,7 @@ class Table extends Component {
           onClick={this.handleDelete}
           // ES6 string
           value={`Delete ${this.state.numSelectedRecords} Records`}
-          disabled={this.state.numSelectedRecords===0}
+          disabled={this.state.numSelectedRecords === 0}
         />
       </div>
     );
