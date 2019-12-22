@@ -12,7 +12,7 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ascending: false,
+      ascending: true,
       isMainPage: true,
       data: [],
       storageKey: "expenseList",
@@ -247,33 +247,48 @@ class Table extends Component {
             <tr>
               <th onClick={() => this.handleSort("Date")}>
                 Date{" "}
-                {this.state.sortingColumn === "Date" && (
-                  <FontAwesomeIcon icon={faCaretUp} />
-                )}
+                {this.state.sortingColumn === "Date" &&
+                  (this.state.ascending ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : (
+                    <FontAwesomeIcon className="faCaretDown" icon={faCaretUp} />
+                  ))}
               </th>
               <th onClick={() => this.handleSort("Item")}>
                 Item{" "}
-                {this.state.sortingColumn === "Item" && (
-                  <FontAwesomeIcon icon={faCaretUp} />
-                )}
+                {this.state.sortingColumn === "Item" &&
+                  (this.state.ascending ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : (
+                    <FontAwesomeIcon className="faCaretDown" icon={faCaretUp} />
+                  ))}
               </th>
               <th onClick={() => this.handleSort("Amount")}>
                 Amount{" "}
-                {this.state.sortingColumn === "Amount" && (
-                  <FontAwesomeIcon icon={faCaretUp} />
-                )}
+                {this.state.sortingColumn === "Amount" &&
+                  (this.state.ascending ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : (
+                    <FontAwesomeIcon className="faCaretDown" icon={faCaretUp} />
+                  ))}
               </th>
               <th onClick={() => this.handleSort("Category")}>
                 Category{" "}
-                {this.state.sortingColumn === "Category" && (
-                  <FontAwesomeIcon icon={faCaretUp} />
-                )}
+                {this.state.sortingColumn === "Category" &&
+                  (this.state.ascending ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : (
+                    <FontAwesomeIcon className="faCaretDown" icon={faCaretUp} />
+                  ))}
               </th>
               <th onClick={() => this.handleSort("Comment")}>
                 Comment{" "}
-                {this.state.sortingColumn === "Comment" && (
-                  <FontAwesomeIcon icon={faCaretUp} />
-                )}
+                {this.state.sortingColumn === "Comment" &&
+                  (this.state.ascending ? (
+                    <FontAwesomeIcon icon={faCaretUp} />
+                  ) : (
+                    <FontAwesomeIcon className="faCaretDown" icon={faCaretUp} />
+                  ))}
               </th>
               <th className="Table-th"></th>
             </tr>
