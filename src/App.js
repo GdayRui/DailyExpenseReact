@@ -6,13 +6,12 @@ import "./App.css";
 class App extends React.Component {
   state = {
     isMainPage: true,
-    tableTitle: "Daily Expense 2021 Jan"
+    tableTitle: "Daily Expense 2020 Jan"
   };
 
   render() {
-
     return (
-      <div className="App" >
+      <div className="App">
         <Table title={this.state.tableTitle} />
       </div>
     );

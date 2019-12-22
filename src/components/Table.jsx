@@ -12,6 +12,7 @@ class Table extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      ascending: false,
       isMainPage: true,
       data: [],
       storageKey: "expenseList",
@@ -90,15 +91,15 @@ class Table extends Component {
       // return itemA>itemB?1:-1;
       let comparison = 0;
       if (itemA > itemB) {
-        comparison = 1;
+        this.state.ascending ? (comparison = 1) : (comparison = -1);
       } else if (itemA < itemB) {
-        comparison = -1;
+        this.state.ascending ? (comparison = -1) : (comparison = 1);
       }
       return comparison;
     };
 
     const compareAmount = (a, b) => {
-      return a.Amount - b.Amount;
+      return this.state.ascending ? a.Amount - b.Amount : b.Amount - a.Amount;
     };
 
     const compareComment = (a, b) => {
@@ -106,9 +107,9 @@ class Table extends Component {
       const commentB = b.Comment.toUpperCase();
       let comparison = 0;
       if (commentA > commentB) {
-        comparison = 1;
+        this.state.ascending ? (comparison = 1) : (comparison = -1);
       } else if (commentA < commentB) {
-        comparison = -1;
+        this.state.ascending ? (comparison = -1) : (comparison = 1);
       }
       return comparison;
     };
@@ -118,9 +119,9 @@ class Table extends Component {
       const categoryB = b.Category.toUpperCase();
       let comparison = 0;
       if (categoryA > categoryB) {
-        comparison = 1;
+        this.state.ascending ? (comparison = 1) : (comparison = -1);
       } else if (categoryA < categoryB) {
-        comparison = -1;
+        this.state.ascending ? (comparison = -1) : (comparison = 1);
       }
       return comparison;
     };
@@ -130,9 +131,9 @@ class Table extends Component {
       const dateB = new Date(b.Date);
       let comparison = 0;
       if (dateA > dateB) {
-        comparison = 1;
+        this.state.ascending ? (comparison = 1) : (comparison = -1);
       } else if (dateA < dateB) {
-        comparison = -1;
+        this.state.ascending ? (comparison = -1) : (comparison = 1);
       }
       return comparison;
     };
@@ -150,8 +151,13 @@ class Table extends Component {
     } else if (type === "Date") {
       sortedData = this.state.data.sort(compareDate);
     }
+    this.state.ascending = !this.state.ascending;
 
-    this.setState({ data: sortedData, sortingColumn: type });
+    this.setState({
+      data: sortedData,
+      sortingColumn: type,
+      ascending: this.state.ascending
+    });
   };
 
   //  Sort
@@ -214,12 +220,10 @@ class Table extends Component {
 
   render() {
     let tbodyContent = this.state.data.map(item => {
-      let selectIcon = item.isSelected ? (
+      let selectIcon = item.isSelected && (
         <td>
           <FontAwesomeIcon icon={faCheckCircle} />
         </td>
-      ) : (
-        <td></td>
       );
       return (
         <tr onClick={() => this.handleSelected(item.Id)}>
@@ -278,12 +282,12 @@ class Table extends Component {
         </table>
 
         <input
-          className="btn btn-primary pr-5 pl-5 my-3 mx-2"
+          className="btn btn-primary pr-5 pl-5 mt-3 mx-2"
           onClick={this.handleShowForm}
           value="Add Expense"
         />
         <input
-          className="btn btn-danger pr-5 pl-5 my-3 mx-2"
+          className="btn btn-danger pr-5 pl-5 mt-3 mx-2"
           onClick={this.handleDelete}
           // ES6 string
           value={`Delete ${this.state.numSelectedRecords} Records`}
