@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import Form from "./Form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheckCircle,
-  faArrowUp,
-  faChevronDown,
-  faCaretUp
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 class Table extends Component {
   constructor(props) {
@@ -15,13 +10,12 @@ class Table extends Component {
       ascending: true,
       isMainPage: true,
       data: [],
+      dataFiltered: [],
       storageKey: "expenseList",
       numSelectedRecords: 0,
       sortingColumn: ""
     };
   }
-
-  static getDerivedStateFromProps() {}
 
   handleShowForm = () => {
     this.setState({ isMainPage: false });
@@ -32,19 +26,47 @@ class Table extends Component {
   };
 
   handleSelected = id => {
+    let numSelectedRecords = this.state.numSelectedRecords;
+
     for (let i = 0; i < this.state.data.length; i++) {
       if (id === this.state.data[i].Id) {
         let tmpData = this.state.data;
-        tmpData[i].isSelected = !tmpData[i].isSelected;
-        tmpData[i].isSelected
-          ? this.state.numSelectedRecords++
-          : this.state.numSelectedRecords--;
-        this.setState({ data: tmpData });
+        //----------------
+        if (true) {
+          tmpData[i].isSelected = !tmpData[i].isSelected;
+          tmpData[i].isSelected ? numSelectedRecords++ : numSelectedRecords--;
+        }
+        //----------------
+        else {
+          tmpData[i].isSelected ? numSelectedRecords-- : numSelectedRecords++;
+          tmpData[i].isSelected = !tmpData[i].isSelected;
+        }
 
+        //----------------
+        this.setState({
+          numSelectedRecords: numSelectedRecords,
+          data: tmpData
+        });
+        return;
+      }
+    }
+
+    for (let i = 0; i < this.state.dataFiltered.length; i++) {
+      if (id === this.state.dataFiltered[i].Id) {
+        let tmpDataFiltered = this.state.dataFiltered;
+        tmpDataFiltered[i].isSelected = !tmpDataFiltered[i].isSelected;
+        tmpDataFiltered[i].isSelected
+          ? numSelectedRecords++
+          : numSelectedRecords--;
+        this.setState({
+          numSelectedRecords: numSelectedRecords,
+          dataFiltered: tmpDataFiltered
+        });
         return;
       }
     }
   };
+
   // Delete selected records
   handleDelete = () => {
     // let items = this.state.data;
@@ -59,17 +81,17 @@ class Table extends Component {
 
     // option 2
     let resultList = this.state.data.filter(item => !item.isSelected);
-    this.setState({ data: resultList });
-
+    this.setState({ data: resultList, dataFiltered: resultList });
+    // **
     window.localStorage.setItem(
       this.state.storageKey,
       JSON.stringify(resultList)
     );
-    this.setState({ data: resultList });
+    //this.setState({ data: resultList });
   };
 
+  // ***
   handleAddNewRecord = newRecord => {
-    // ***
     newRecord.Id = this.state.data.length + 1;
     let currentData = this.state.data;
     currentData.push(newRecord);
@@ -79,7 +101,11 @@ class Table extends Component {
       JSON.stringify(currentData)
     );
 
-    this.setState({ data: currentData });
+    this.setState({
+      data: currentData,
+      dataFiltered: currentData,
+      numSelectedRecords: 0
+    });
   };
 
   // Sort the data
@@ -160,9 +186,24 @@ class Table extends Component {
     });
   };
 
-  //  Sort
+  // Quick search
+  handleQuickSearch = e => {
+    debugger;
+    var userInput = e.target.value;
+    const filterFn = item =>
+      item.Description.indexOf(userInput) >= 0 ||
+      item.Amount.indexOf(userInput) >= 0 ||
+      item.Description.indexOf(userInput) >= 0 ||
+      item.Category.indexOf(userInput) >= 0;
+
+    let filteredResult = this.state.data.filter(filterFn);
+
+    this.setState({ dataFiltered: filteredResult });
+  };
+
+  //--------------------
   // tmpSort = (arr) => {
-  //   if(arr.length <= 1){
+  //    if(arr.length <= 1){
   //     return arr;
   //   }
 
@@ -184,41 +225,44 @@ class Table extends Component {
   //   return [...arrSmall, key, ...arrBig];
   // }
 
-  /* handleSortByAmount = () => {
-  
-    function compare(a,b) {
+  // Read local storage data when loading the page.
 
-      let comparison = 0;
-      if (a.Amount > b.Amount ) {
-        comparison = 1;
-      } else if (a.Amount < b.Amount ) {
-        comparison = -1;
-      } 
-      return comparison;
-    }
-
-    let sortedData = this.state.data.sort(compare);
-    this.setState({data: sortedData});
-
-  } */
-
-  // Read local storage data
   readLocalStorage = () => {
     let storedDataJson = window.localStorage.getItem(this.state.storageKey);
 
     let storedData = JSON.parse(storedDataJson);
     if (storedData) {
-      this.setState({ data: storedData });
-      //return { data: storedData };
-      //this.state.data = storedData;
+      this.setState({ data: storedData, dataFiltered: storedData });
     }
   };
 
+  // After render
   componentDidMount() {
     this.readLocalStorage();
   }
 
   render() {
+    // Filtered data. Always use 'filteredData' as Tbody, but assign it 'data' whenever 'data' change.
+    let tbodyFilteredData = this.state.dataFiltered.map(item => {
+      return (
+        <tr onClick={() => this.handleSelected(item.Id)}>
+          <td>{item.Date}</td>
+          <td>{item.Description}</td>
+          <td>{item.Amount}</td>
+          <td>{item.Category}</td>
+          <td>{item.Comment}</td>
+          {item.isSelected ? (
+            <td>
+              <FontAwesomeIcon icon={faCheckCircle} />
+            </td>
+          ) : (
+            <td></td>
+          )}
+        </tr>
+      );
+    });
+
+    /*  
     let tbodyContent = this.state.data.map(item => {
       let selectIcon = item.isSelected && (
         <td>
@@ -236,12 +280,14 @@ class Table extends Component {
         </tr>
       );
     });
+    */
 
     let mainPage = (
       <div className="container">
         <div className="container my-5">
           <h2>{this.props.title}</h2>
         </div>
+        <input type="text" onChange={this.handleQuickSearch} />
         <table className="table table-striped my-2">
           <thead>
             <tr>
@@ -293,13 +339,14 @@ class Table extends Component {
               <th className="Table-th"></th>
             </tr>
           </thead>
-          <tbody>{tbodyContent}</tbody>
+          <tbody>{tbodyFilteredData}</tbody>
         </table>
 
         <input
           className="btn btn-primary pr-5 pl-5 mt-3 mx-2"
           onClick={this.handleShowForm}
           value="Add Expense"
+          readOnly
         />
         <input
           className="btn btn-danger pr-5 pl-5 mt-3 mx-2"
