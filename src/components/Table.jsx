@@ -25,33 +25,16 @@ class Table extends Component {
     this.setState({ isMainPage: true });
   };
 
-  getValue =(argStr) => {
-    if(!argStr){
-      return;
-    }
-
-    console.log('do something: '+argStr);
-  }
-
   handleSelected = id => {
-
     let numSelectedRecords = this.state.numSelectedRecords;
 
     for (let i = 0; i < this.state.data.length; i++) {
       if (id === this.state.data[i].Id) {
         let tmpData = this.state.data;
-        //----------------
-        if (true) {
-          tmpData[i].isSelected = !tmpData[i].isSelected;
-          tmpData[i].isSelected ? numSelectedRecords++ : numSelectedRecords--;
-        }
-        //----------------
-        else {
-          tmpData[i].isSelected ? numSelectedRecords-- : numSelectedRecords++;
-          tmpData[i].isSelected = !tmpData[i].isSelected;
-        }
 
-        //----------------
+        tmpData[i].isSelected = !tmpData[i].isSelected;
+        tmpData[i].isSelected ? numSelectedRecords++ : numSelectedRecords--;
+
         this.setState({
           numSelectedRecords: numSelectedRecords,
           data: tmpData
@@ -79,10 +62,10 @@ class Table extends Component {
   // Delete selected records
   handleDelete = () => {
     let resultList = this.state.data.filter(item => !item.isSelected);
-    this.setState({ 
-      data: resultList, 
-      dataFiltered: resultList, 
-      numSelectedRecords: 0 
+    this.setState({
+      data: resultList,
+      dataFiltered: resultList,
+      numSelectedRecords: 0
     });
     // **
     window.localStorage.setItem(
@@ -114,7 +97,7 @@ class Table extends Component {
     const compareItem = (a, b) => {
       const itemA = a.Description.toUpperCase();
       const itemB = b.Description.toUpperCase();
-      // * cannot compare 2 strings. this compare fn only return
+      // ** cannot compare 2 strings. this compare fn only return 0, 1, -1.
       // return itemA>itemB?1:-1;
       let comparison = 0;
       if (itemA > itemB) {
@@ -166,16 +149,36 @@ class Table extends Component {
     };
 
     let sortedData;
-    if (type === "Amount") {
-      sortedData = this.state.data.sort(compareAmount);
-    } else if (type === "Item") {
-      sortedData = this.state.data.sort(compareItem);
-    } else if (type === "Comment") {
-      sortedData = this.state.data.sort(compareComment);
-    } else if (type === "Category") {
-      sortedData = this.state.data.sort(compareCategory);
-    } else if (type === "Date") {
-      sortedData = this.state.data.sort(compareDate);
+    // if (type === "Amount") {
+    //   sortedData = this.state.data.sort(compareAmount);
+    // } else if (type === "Item") {
+    //   sortedData = this.state.data.sort(compareItem);
+    // } else if (type === "Comment") {
+    //   sortedData = this.state.data.sort(compareComment);
+    // } else if (type === "Category") {
+    //   sortedData = this.state.data.sort(compareCategory);
+    // } else if (type === "Date") {
+    //   sortedData = this.state.data.sort(compareDate);
+    // }
+
+    switch (type) {
+      case "Amount":
+        sortedData = this.state.data.sort(compareAmount);
+        break;
+      case "Item":
+        sortedData = this.state.data.sort(compareItem);
+        break;
+      case "Comment":
+        sortedData = this.state.data.sort(compareComment);
+        break;
+      case "Category":
+        sortedData = this.state.data.sort(compareCategory);
+        break;
+      case "Date":
+        sortedData = this.state.data.sort(compareDate);
+        break;
+      default:
+        break;
     }
     this.state.ascending = !this.state.ascending;
 
