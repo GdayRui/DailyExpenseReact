@@ -25,7 +25,16 @@ class Table extends Component {
     this.setState({ isMainPage: true });
   };
 
+  getValue =(argStr) => {
+    if(!argStr){
+      return;
+    }
+
+    console.log('do something: '+argStr);
+  }
+
   handleSelected = id => {
+
     let numSelectedRecords = this.state.numSelectedRecords;
 
     for (let i = 0; i < this.state.data.length; i++) {
@@ -69,25 +78,17 @@ class Table extends Component {
 
   // Delete selected records
   handleDelete = () => {
-    // let items = this.state.data;
-    // for (let i=0; i<this.state.data.length; i++) {
-
-    //   if (items[i].isSelected) {
-    //     items.splice(i, 1);
-    //     i--;
-    //     this.state.numSelectedRecords--;
-    //   }
-    // }
-
-    // option 2
     let resultList = this.state.data.filter(item => !item.isSelected);
-    this.setState({ data: resultList, dataFiltered: resultList });
+    this.setState({ 
+      data: resultList, 
+      dataFiltered: resultList, 
+      numSelectedRecords: 0 
+    });
     // **
     window.localStorage.setItem(
       this.state.storageKey,
       JSON.stringify(resultList)
     );
-    //this.setState({ data: resultList });
   };
 
   // ***
@@ -165,7 +166,6 @@ class Table extends Component {
     };
 
     let sortedData;
-    // debugger;
     if (type === "Amount") {
       sortedData = this.state.data.sort(compareAmount);
     } else if (type === "Item") {
@@ -200,30 +200,6 @@ class Table extends Component {
 
     this.setState({ dataFiltered: filteredResult });
   };
-
-  //--------------------
-  // tmpSort = (arr) => {
-  //    if(arr.length <= 1){
-  //     return arr;
-  //   }
-
-  //   let key = arr[0];
-  //   let arrSmall = [];
-  //   let arrBig = [];
-
-  //   for(let i=1; i<arr.length; i++){
-  //     if(arr[i] <= key ){
-  //       arrSmall.push(arr[i]);
-  //     } else{
-  //       arrBig.push(arr[i]);
-  //     }
-  //   }
-
-  //   let arrSmallSorted = this.tmpSort(arrSmall);
-  //   let arrBigSorted = this.tmpSort(arrBig);
-
-  //   return [...arrSmall, key, ...arrBig];
-  // }
 
   // Read local storage data when loading the page.
 
@@ -261,26 +237,6 @@ class Table extends Component {
         </tr>
       );
     });
-
-    /*  
-    let tbodyContent = this.state.data.map(item => {
-      let selectIcon = item.isSelected && (
-        <td>
-          <FontAwesomeIcon icon={faCheckCircle} />
-        </td>
-      );
-      return (
-        <tr onClick={() => this.handleSelected(item.Id)}>
-          <td>{item.Date}</td>
-          <td>{item.Description}</td>
-          <td>{item.Amount}</td>
-          <td>{item.Category}</td>
-          <td>{item.Comment}</td>
-          {selectIcon}
-        </tr>
-      );
-    });
-    */
 
     let mainPage = (
       <div className="container">
