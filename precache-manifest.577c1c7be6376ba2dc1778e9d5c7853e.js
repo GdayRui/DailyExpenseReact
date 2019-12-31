@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "abd659b7bd36011afce6487a1a662f9b",
+    "revision": "a43ea2c8a03c1f55c873dfc8d7cebd9d",
     "url": "/DailyExpenseReact/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/DailyExpenseReact/static/css/2.64a99b10.chunk.css"
   },
   {
-    "revision": "4223d61cf5aad2865a8d",
+    "revision": "c10a1034e210ba12c81b",
     "url": "/DailyExpenseReact/static/css/main.683d5d11.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/DailyExpenseReact/static/js/2.05e1f07e.chunk.js"
   },
   {
-    "revision": "4223d61cf5aad2865a8d",
-    "url": "/DailyExpenseReact/static/js/main.d15ab7e0.chunk.js"
+    "revision": "c10a1034e210ba12c81b",
+    "url": "/DailyExpenseReact/static/js/main.0429adf3.chunk.js"
   },
   {
     "revision": "29a69a96d62c92b824da",
