@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/DailyExpenseReact/static/css/main.683d5d11.chunk.css",
-    "main.js": "/DailyExpenseReact/static/js/main.7602fa8f.chunk.js",
-    "main.js.map": "/DailyExpenseReact/static/js/main.7602fa8f.chunk.js.map",
+    "main.js": "/DailyExpenseReact/static/js/main.aa124d2d.chunk.js",
+    "main.js.map": "/DailyExpenseReact/static/js/main.aa124d2d.chunk.js.map",
     "runtime-main.js": "/DailyExpenseReact/static/js/runtime-main.8edf72b3.js",
     "runtime-main.js.map": "/DailyExpenseReact/static/js/runtime-main.8edf72b3.js.map",
     "static/css/2.64a99b10.chunk.css": "/DailyExpenseReact/static/css/2.64a99b10.chunk.css",
     "static/js/2.05e1f07e.chunk.js": "/DailyExpenseReact/static/js/2.05e1f07e.chunk.js",
     "static/js/2.05e1f07e.chunk.js.map": "/DailyExpenseReact/static/js/2.05e1f07e.chunk.js.map",
     "index.html": "/DailyExpenseReact/index.html",
-    "precache-manifest.3e3520ac92caf874585f193abd93d955.js": "/DailyExpenseReact/precache-manifest.3e3520ac92caf874585f193abd93d955.js",
+    "precache-manifest.25a5ce8708fa1419ae234f0b51ad05ec.js": "/DailyExpenseReact/precache-manifest.25a5ce8708fa1419ae234f0b51ad05ec.js",
     "service-worker.js": "/DailyExpenseReact/service-worker.js",
     "static/css/2.64a99b10.chunk.css.map": "/DailyExpenseReact/static/css/2.64a99b10.chunk.css.map",
     "static/css/main.683d5d11.chunk.css.map": "/DailyExpenseReact/static/css/main.683d5d11.chunk.css.map"
@@ -19,6 +19,6 @@
     "static/css/2.64a99b10.chunk.css",
     "static/js/2.05e1f07e.chunk.js",
     "static/css/main.683d5d11.chunk.css",
-    "static/js/main.7602fa8f.chunk.js"
+    "static/js/main.aa124d2d.chunk.js"
   ]
 }
