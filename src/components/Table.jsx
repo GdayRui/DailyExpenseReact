@@ -148,7 +148,7 @@ class Table extends Component {
       return comparison;
     };
 
-    let sortedData;
+    //let sortedData;
     // if (type === "Amount") {
     //   sortedData = this.state.data.sort(compareAmount);
     // } else if (type === "Item") {
@@ -163,19 +163,24 @@ class Table extends Component {
 
     switch (type) {
       case "Amount":
-        sortedData = this.state.data.sort(compareAmount);
+        this.state.data.sort(compareAmount);
+        this.state.dataFiltered.sort(compareAmount);
         break;
       case "Item":
-        sortedData = this.state.data.sort(compareItem);
+        this.state.data.sort(compareItem);
+        this.state.dataFiltered.sort(compareItem);
         break;
       case "Comment":
-        sortedData = this.state.data.sort(compareComment);
+        this.state.data.sort(compareComment);
+        this.state.dataFiltered.sort(compareComment);
         break;
       case "Category":
-        sortedData = this.state.data.sort(compareCategory);
+        this.state.data.sort(compareCategory);
+        this.state.dataFiltered.sort(compareCategory);
         break;
       case "Date":
-        sortedData = this.state.data.sort(compareDate);
+        this.state.data.sort(compareDate);
+        this.state.dataFiltered.sort(compareDate);
         break;
       default:
         break;
@@ -183,29 +188,34 @@ class Table extends Component {
     this.state.ascending = !this.state.ascending;
 
     this.setState({
-      data: sortedData,
+      //data: sortedData,
       sortingColumn: type,
       ascending: this.state.ascending
     });
+
+    debugger;
+    console.log("Sorted");
   };
 
   // Quick search
   handleQuickSearch = e => {
     debugger;
-    var userInput = e.target.value;
+    var userInput = e.target.value.toUpperCase();
     const filterFn = item =>
-      item.Description.indexOf(userInput) >= 0 ||
+      item.Description.toUpperCase().indexOf(userInput) >= 0 ||
       item.Amount.indexOf(userInput) >= 0 ||
-      item.Description.indexOf(userInput) >= 0 ||
-      item.Category.indexOf(userInput) >= 0;
+      item.Description.toUpperCase().indexOf(userInput) >= 0 ||
+      item.Category.toUpperCase().indexOf(userInput) >= 0;
 
     let filteredResult = this.state.data.filter(filterFn);
+    //console.log(filteredResult);
+    //console.log(this.state.data);
 
     this.setState({ dataFiltered: filteredResult });
+    console.log("search done");
   };
 
   // Read local storage data when loading the page.
-
   readLocalStorage = () => {
     let storedDataJson = window.localStorage.getItem(this.state.storageKey);
 
@@ -246,7 +256,7 @@ class Table extends Component {
         <div className="container my-5">
           <h2>{this.props.title}</h2>
         </div>
-        <input type="text" onChange={this.handleQuickSearch} />
+        <input type="text" onChange={e => this.handleQuickSearch(e)} />
         <table className="table table-striped my-2">
           <thead>
             <tr>
