@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/DailyExpenseReact/static/css/main.683d5d11.chunk.css",
+    "main.js": "/DailyExpenseReact/static/js/main.d15ab7e0.chunk.js",
+    "main.js.map": "/DailyExpenseReact/static/js/main.d15ab7e0.chunk.js.map",
+    "runtime-main.js": "/DailyExpenseReact/static/js/runtime-main.8edf72b3.js",
+    "runtime-main.js.map": "/DailyExpenseReact/static/js/runtime-main.8edf72b3.js.map",
+    "static/css/2.64a99b10.chunk.css": "/DailyExpenseReact/static/css/2.64a99b10.chunk.css",
+    "static/js/2.05e1f07e.chunk.js": "/DailyExpenseReact/static/js/2.05e1f07e.chunk.js",
+    "static/js/2.05e1f07e.chunk.js.map": "/DailyExpenseReact/static/js/2.05e1f07e.chunk.js.map",
+    "index.html": "/DailyExpenseReact/index.html",
+    "precache-manifest.ff28cf63a2a33ca7e48a928c634f7536.js": "/DailyExpenseReact/precache-manifest.ff28cf63a2a33ca7e48a928c634f7536.js",
+    "service-worker.js": "/DailyExpenseReact/service-worker.js",
+    "static/css/2.64a99b10.chunk.css.map": "/DailyExpenseReact/static/css/2.64a99b10.chunk.css.map",
+    "static/css/main.683d5d11.chunk.css.map": "/DailyExpenseReact/static/css/main.683d5d11.chunk.css.map"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8edf72b3.js",
+    "static/css/2.64a99b10.chunk.css",
+    "static/js/2.05e1f07e.chunk.js",
+    "static/css/main.683d5d11.chunk.css",
+    "static/js/main.d15ab7e0.chunk.js"
+  ]
+}
