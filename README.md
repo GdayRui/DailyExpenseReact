@@ -1,3 +1,6 @@
+## Demo runs here: 
+https://gdayrui.github.io/DailyExpenseReact/
+<br />
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
