@@ -1,5 +1,28 @@
-# Daily expense web app
+# Daily expense web app (in progress...)
 ### Demo runs here: https://gdayrui.github.io/DailyExpenseReact/
+
+## Summary
+This web application is implemented using React.js that allow user to manage everyday expense data and display it in table format. The data is persisted in MS SQL Server database, provided by RESTful API endpoints. It also features input validation, column sorting, quick search, and temporary caching functionalities.   
+
+## Main features
+ - Listing current expense records in table format containing Date, Item, Amount, Category and Comments columns
+ - Able to add and delete records
+ - Data is cached in local storage
+ - Quick search allows user to find any records by search string in realtime
+ - Column sorting: clicking on each column header, and the table will be sorted against that column in ascending or descending order.
+
+## Things to be done
+ - Improve the Expense Form and finish user input validation
+ - Add user login page
+ - Add a page that user can add/manage their boards
+ - Add consistent header & footer for all pages
+ - Add react routing
+ 
+ ## Main challanges
+ - 
+
+
+
 <br />
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
